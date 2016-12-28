@@ -53,6 +53,7 @@ public class ContactController {
 	@RequestMapping("/download")
 	@ResponseBody
 	public void download(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		
 		/*
 		 * 两个头一个流
 		 * 1. Content-Type
