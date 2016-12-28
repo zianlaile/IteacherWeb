@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss,SSS} %m (%F:%L) \n" />
+		</layout>
+	</appender>
+	<appender name="DEFAULT-APPENDER" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/usr/local/apache-tomcat-7.0.67/webapps/logs/iteacherWeb-out.log" />
+		<param name="MaxBackupIndex" value="10" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd-a'.log'"></param>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss,SSS} %m (%F:%L) \n" />
+		</layout>
+	</appender>
+	<appender name="TestAtten" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="/usr/local/apache-tomcat-7.0.67/webapps/logs/iteacherWeb-testAtten.log"/>
+		<param name="maxFileSize" value="10240kb"/>
+		<param name="append" value="true"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss,SSS} %m (%F:%L) \n" />
+		</layout>
+	</appender>
+ 	<logger name="java.sql">
+		<level value="debug"/>
+	</logger>
+	<root>
+		<level value="debug"/>
+		<appender-ref ref="DEFAULT-APPENDER"/> 
+ 	  	<appender-ref ref="STDOUT"/>  
+	</root>
+</log4j:configuration>
