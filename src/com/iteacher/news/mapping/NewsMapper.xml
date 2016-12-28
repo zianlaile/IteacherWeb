@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.news.dao.NewsMapper">
+	<resultMap id="BaseResultMap" type="com.iteacher.news.model.News">
+		<id column="newsid" property="newsid" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="scholid" property="scholid" jdbcType="INTEGER" />
+		<result column="recipient" property="recipient" jdbcType="VARCHAR" />
+		<result column="picture" property="picture" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="userid" property="userid" jdbcType="VARCHAR" />
+		<result column="abstr" property="abstr" jdbcType="VARCHAR" />
+		<result column="tag" property="tag" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		newsid, title, addtime, type, scholid, recipient, picture, content, userid,
+		abstr,tag,
+		url
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from z_news
+		where newsid = #{newsid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from z_news
+		where newsid = #{newsid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.iteacher.news.model.News">
+		insert into z_news (newsid, title, addtime,
+		type, scholid, recipient,
+		picture, content, userid,
+		abstr, tag, url)
+		values (#{newsid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{addtime,jdbcType=TIMESTAMP},
+		#{type,jdbcType=VARCHAR}, #{scholid,jdbcType=INTEGER}, #{recipient,jdbcType=VARCHAR},
+		#{picture,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR},
+		#{userid,jdbcType=VARCHAR},
+		#{abstr,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR})
+	</insert>
+	<!-- 插入返回主键 -->
+	<insert id="insertSelective" parameterType="com.iteacher.news.model.News">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="newsid">
+			SELECT LAST_INSERT_ID() AS newsid
+		</selectKey>
+		insert into z_news
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="newsid != null">
+				newsid,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="addtime != null">
+				addtime,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="scholid != null">
+				scholid,
+			</if>
+			<if test="recipient != null">
+				recipient,
+			</if>
+			<if test="picture != null">
+				picture,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="abstr != null">
+				abstr,
+			</if>
+			<if test="tag != null">
+				tag,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="newsid != null">
+				#{newsid,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="scholid != null">
+				#{scholid,jdbcType=INTEGER},
+			</if>
+			<if test="recipient != null">
+				#{recipient,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				#{picture,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="abstr != null">
+				#{abstr,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.iteacher.news.model.News">
+		update z_news
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="addtime != null">
+				addtime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="scholid != null">
+				scholid = #{scholid,jdbcType=INTEGER},
+			</if>
+			<if test="recipient != null">
+				recipient = #{recipient,jdbcType=VARCHAR},
+			</if>
+			<if test="picture != null">
+				picture = #{picture,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=VARCHAR},
+			</if>
+			<if test="abstr != null">
+				abstr = #{abstr,jdbcType=VARCHAR},
+			</if>
+			<if test="tag != null">
+				tag = #{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where newsid = #{newsid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.iteacher.news.model.News">
+		update z_news
+		set title = #{title,jdbcType=VARCHAR},
+		addtime = #{addtime,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=VARCHAR},
+		scholid = #{scholid,jdbcType=INTEGER},
+		recipient = #{recipient,jdbcType=VARCHAR},
+		picture = #{picture,jdbcType=VARCHAR},
+		content = #{content,jdbcType=LONGVARCHAR},
+		userid = #{userid,jdbcType=VARCHAR},
+		abstr = #{abstr,jdbcType=VARCHAR},
+		tag = #{tag,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR}
+		where newsid = #{newsid,jdbcType=INTEGER}
+	</update>
+
+	<!-- 查询列表 -->
+	<select id="findNewsList" resultType="com.iteacher.news.model.NewsCustom">
+		SELECT
+		z_news.*,
+		g_adm_account.username
+		FROM
+		z_news,
+		g_adm_account
+		WHERE z_news.userid = g_adm_account.userid limit #{0},#{1}
+	</select>
+
+	<!-- 查询个数 -->
+	<select id="countAllNews" resultType="Long">
+		select count(*) from 
+		z_news,
+		g_adm_account
+		WHERE z_news.userid = g_adm_account.userid
+	</select>
+	<!-- 按主键查询列表和用户名 -->
+	<select id="selectWithUserByPrimaryKey" resultType="com.iteacher.news.model.NewsCustom"
+		parameterType="java.lang.Integer">
+		SELECT
+		z_news.*,
+		g_adm_account.username
+		FROM
+		z_news,
+		g_adm_account
+		WHERE z_news.userid = g_adm_account.userid AND z_news.newsid = #{newsid,jdbcType=INTEGER}
+	</select>
+</mapper>

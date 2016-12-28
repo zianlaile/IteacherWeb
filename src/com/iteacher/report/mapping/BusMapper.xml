@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.report.dao.BusMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.report.model.Bus" >
+    <id column="busid" property="busid" jdbcType="INTEGER" />
+    <result column="campusid" property="campusid" jdbcType="INTEGER" />
+    <result column="buspicid" property="buspicid" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="schoolyear" property="schoolyear" jdbcType="VARCHAR" />
+    <result column="agree_num" property="agreeNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    busid, campusid, buspicid, userid, username, addtime, schoolyear, agree_num
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from g_bus
+    where busid = #{busid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from g_bus
+    where busid = #{busid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.report.model.Bus" >
+    insert into g_bus (busid, campusid, buspicid, 
+      userid, username, addtime, 
+      schoolyear, agree_num)
+    values (#{busid,jdbcType=INTEGER}, #{campusid,jdbcType=INTEGER}, #{buspicid,jdbcType=INTEGER}, 
+      #{userid,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{schoolyear,jdbcType=VARCHAR}, #{agreeNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.report.model.Bus" >
+    insert into g_bus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="busid != null" >
+        busid,
+      </if>
+      <if test="campusid != null" >
+        campusid,
+      </if>
+      <if test="buspicid != null" >
+        buspicid,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="schoolyear != null" >
+        schoolyear,
+      </if>
+      <if test="agreeNum != null" >
+        agree_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="busid != null" >
+        #{busid,jdbcType=INTEGER},
+      </if>
+      <if test="campusid != null" >
+        #{campusid,jdbcType=INTEGER},
+      </if>
+      <if test="buspicid != null" >
+        #{buspicid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolyear != null" >
+        #{schoolyear,jdbcType=VARCHAR},
+      </if>
+      <if test="agreeNum != null" >
+        #{agreeNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.report.model.Bus" >
+    update g_bus
+    <set >
+      <if test="campusid != null" >
+        campusid = #{campusid,jdbcType=INTEGER},
+      </if>
+      <if test="buspicid != null" >
+        buspicid = #{buspicid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolyear != null" >
+        schoolyear = #{schoolyear,jdbcType=VARCHAR},
+      </if>
+      <if test="agreeNum != null" >
+        agree_num = #{agreeNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where busid = #{busid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.report.model.Bus" >
+    update g_bus
+    set campusid = #{campusid,jdbcType=INTEGER},
+      buspicid = #{buspicid,jdbcType=INTEGER},
+      userid = #{userid,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      schoolyear = #{schoolyear,jdbcType=VARCHAR},
+      agree_num = #{agreeNum,jdbcType=INTEGER}
+    where busid = #{busid,jdbcType=INTEGER}
+  </update>
+</mapper>

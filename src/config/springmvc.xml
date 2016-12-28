@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+        ">
+        
+   <!-- 可以扫描controller、service、...这里让扫描controller，指定Service的包-->   <!-- exclude-filter 排除的过滤器 --> 
+	<context:component-scan base-package="com.iteacher">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
+	<!-- 这个配置是干啥的？ 上面已经配置过<context:component-scan/>了，应该可以删除这个配置了吧-->
+	<context:annotation-config /> 
+	
+	
+	<!-- 使用 mvc:annotation-driven代替注解映射器和注解适配器配置
+		mvc:annotation-driven默认加载很多的参数绑定方法，比如json转换解析器就默认加载了-->
+	
+	<mvc:annotation-driven>
+	</mvc:annotation-driven>
+	
+	<!-- 静态资源解析包括 ：js、css、img、.. -->
+	<mvc:resources location="/assets/" mapping="/assets/**" />
+	<mvc:resources location="/userfiles/" mapping="/userfiles/**" />
+	<mvc:resources location="/upload/" mapping="/upload/**" />
+	<mvc:resources location="/test/" mapping="/test/**" />
+	
+	<!-- 配置处理器映射器和适配器，上面已经使用 mvc:annotation-driven，这些可以删掉了吧。。 -->
+	<!-- spring3.1之前的注解适配器 -->
+ 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	<!-- spring3.1之前的注解映射器 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<!-- 非注解的映射器 -->
+	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+	<!-- 非注解的适配器 -->
+	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" /> 
+	
+	<!-- 视图解析器，解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包-->
+ 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>  
+	
+	<!-- 文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为5MB -->
+		<property name="maxUploadSize">
+			<value>5242880</value>
+		</property>
+	</bean>
+		
+	<!--拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/login"/>
+            <mvc:exclude-mapping path="/log"/>
+            <mvc:exclude-mapping path="/user/**"/>
+            <mvc:exclude-mapping path="/assets/**"/>
+            <bean class="com.iteacher.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+	</mvc:interceptors>
+</beans>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.contact.dao.ContactMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.contact.model.Contact" >
+    <id column="contactid" property="contactid" jdbcType="INTEGER" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="campus" property="campus" jdbcType="VARCHAR" />
+    <result column="classify" property="classify" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="office" property="office" jdbcType="VARCHAR" />
+    <result column="person" property="person" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    contactid, school, campus, classify, department, office, person, phone
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from z_contact
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from z_contact
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.contact.model.Contact" >
+    insert into z_contact (contactid, school, campus, 
+      classify, department, office, 
+      person, phone)
+    values (#{contactid,jdbcType=INTEGER}, #{school,jdbcType=VARCHAR}, #{campus,jdbcType=VARCHAR}, 
+      #{classify,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{office,jdbcType=VARCHAR}, 
+      #{person,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.contact.model.Contact" >
+    insert into z_contact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contactid != null" >
+        contactid,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="campus != null" >
+        campus,
+      </if>
+      <if test="classify != null" >
+        classify,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="office != null" >
+        office,
+      </if>
+      <if test="person != null" >
+        person,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contactid != null" >
+        #{contactid,jdbcType=INTEGER},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="campus != null" >
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="office != null" >
+        #{office,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null" >
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.contact.model.Contact" >
+    update z_contact
+    <set >
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="campus != null" >
+        campus = #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        classify = #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="office != null" >
+        office = #{office,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null" >
+        person = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.contact.model.Contact" >
+    update z_contact
+    set school = #{school,jdbcType=VARCHAR},
+      campus = #{campus,jdbcType=VARCHAR},
+      classify = #{classify,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      office = #{office,jdbcType=VARCHAR},
+      person = #{person,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR}
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 获取列表，按照id排序 -->
+  <select id="selectList" parameterType="com.iteacher.contact.model.ContactVo" 
+          resultType="com.iteacher.contact.model.Contact" >
+    select 
+    *
+    from z_contact 
+    <where>
+    	
+    	<!-- <include refid="contact_list_where"></include> -->
+    	
+      <if test="school != null and school != ''" >
+        and school = #{school,jdbcType=VARCHAR}
+      </if>
+      <if test="campus != null and campus != ''" >
+        and campus = #{campus,jdbcType=VARCHAR}
+      </if>
+      <if test="classify != null and classify != ''" >
+        and classify = #{classify,jdbcType=VARCHAR}
+      </if>
+      <if test="department != null and department != ''" >
+        and department = #{department,jdbcType=VARCHAR}
+      </if>
+      <if test="person != null and person != ''" >
+        and person like '%${person}%'
+      </if> 
+      <if test="phone != null and phone != ''" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if> 
+    </where>
+    order by contactid
+     limit #{page},#{rows} 
+  </select>
+  
+  <!-- 获取列表数目 -->
+    <select id="getAllCount" parameterType="com.iteacher.contact.model.ContactVo" resultType="Long">
+    select 
+    count(*)
+    from z_contact
+    <where>
+      <if test="school != null and school != ''" >
+        and school = #{school,jdbcType=VARCHAR}
+      </if>
+      <if test="campus != null and campus != ''" >
+        and campus = #{campus,jdbcType=VARCHAR}
+      </if>
+      <if test="classify != null and classify != ''" >
+        and classify = #{classify,jdbcType=VARCHAR}
+      </if>
+      <if test="department != null and department != ''" >
+        and department = #{department,jdbcType=VARCHAR}
+      </if>
+      <if test="person != null and person != ''" >
+         and person like '%${person}%'
+      </if> 
+      <if test="phone != null and phone != ''" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+    </where> 
+  </select>
+  
+  <!-- 查询所有的学院部门selectAllDepartment -->
+  <select id="selectAllDepartment" resultType="com.iteacher.contact.model.Contact" >
+    select 
+    distinct department
+    from z_contact
+  </select>
+  
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+   insert into z_contact (contactid, school, campus, 
+      classify, department, office, 
+      person, phone) values
+      <foreach collection="list" item = "item" separator=",">
+      	(#{item.contactid,jdbcType=INTEGER},#{item.school,jdbcType=VARCHAR}, #{item.campus,jdbcType=VARCHAR}, 
+      	 #{item.classify,jdbcType=VARCHAR}, #{item.department,jdbcType=VARCHAR}, #{item.office,jdbcType=VARCHAR}, 
+      	 #{item.person,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
+</mapper>

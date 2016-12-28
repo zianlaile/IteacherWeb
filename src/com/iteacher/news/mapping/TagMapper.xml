@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.news.dao.TagMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.news.model.Tag" >
+    <id column="tagid" property="tagid" jdbcType="INTEGER" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tagid, tag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from z_tag
+    where tagid = #{tagid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from z_tag
+    where tagid = #{tagid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.news.model.Tag" >
+    insert into z_tag (tagid, tag)
+    values (#{tagid,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.news.model.Tag" >
+    insert into z_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tagid != null" >
+        tagid,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tagid != null" >
+        #{tagid,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.news.model.Tag" >
+    update z_tag
+    <set >
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where tagid = #{tagid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.news.model.Tag" >
+    update z_tag
+    set tag = #{tag,jdbcType=VARCHAR}
+    where tagid = #{tagid,jdbcType=INTEGER}
+  </update>
+	
+	<!-- 按tag查找标签 -->
+	<select id="selectByTag" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		*
+		from z_tag
+		where tag = #{tag,jdbcType=VARCHAR}
+	</select>
+	<!-- 按id查询tag数目 -->
+	<select id="selectByTagBool" resultType="java.lang.Integer"
+		parameterType="String">
+		select
+		count(*)
+		from z_tag
+		where tagid = #{tagid,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查找所有标签 -->
+	<select id="getAllTags" resultMap="BaseResultMap">
+		select
+		*
+		from z_tag
+	</select>
+</mapper>

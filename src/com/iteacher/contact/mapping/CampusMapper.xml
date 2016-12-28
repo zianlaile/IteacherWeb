@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.contact.dao.CampusMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.contact.model.Campus" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="schoolid" property="schoolid" jdbcType="INTEGER" />
+    <result column="campusname" property="campusname" jdbcType="VARCHAR" />
+    <result column="weekbegindate" property="weekbegindate" jdbcType="VARCHAR" />
+    <result column="coursebegintime" property="coursebegintime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, schoolid, campusname, weekbegindate, coursebegintime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from g_campus
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from g_campus
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.contact.model.Campus" >
+    insert into g_campus (id, schoolid, campusname, 
+      weekbegindate, coursebegintime)
+    values (#{id,jdbcType=INTEGER}, #{schoolid,jdbcType=INTEGER}, #{campusname,jdbcType=VARCHAR}, 
+      #{weekbegindate,jdbcType=VARCHAR}, #{coursebegintime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.contact.model.Campus" >
+    insert into g_campus
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="schoolid != null" >
+        schoolid,
+      </if>
+      <if test="campusname != null" >
+        campusname,
+      </if>
+      <if test="weekbegindate != null" >
+        weekbegindate,
+      </if>
+      <if test="coursebegintime != null" >
+        coursebegintime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="schoolid != null" >
+        #{schoolid,jdbcType=INTEGER},
+      </if>
+      <if test="campusname != null" >
+        #{campusname,jdbcType=VARCHAR},
+      </if>
+      <if test="weekbegindate != null" >
+        #{weekbegindate,jdbcType=VARCHAR},
+      </if>
+      <if test="coursebegintime != null" >
+        #{coursebegintime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.contact.model.Campus" >
+    update g_campus
+    <set >
+      <if test="schoolid != null" >
+        schoolid = #{schoolid,jdbcType=INTEGER},
+      </if>
+      <if test="campusname != null" >
+        campusname = #{campusname,jdbcType=VARCHAR},
+      </if>
+      <if test="weekbegindate != null" >
+        weekbegindate = #{weekbegindate,jdbcType=VARCHAR},
+      </if>
+      <if test="coursebegintime != null" >
+        coursebegintime = #{coursebegintime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.contact.model.Campus" >
+    update g_campus
+    set schoolid = #{schoolid,jdbcType=INTEGER},
+      campusname = #{campusname,jdbcType=VARCHAR},
+      weekbegindate = #{weekbegindate,jdbcType=VARCHAR},
+      coursebegintime = #{coursebegintime,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据schoolid查询campus -->
+  <select id="selectBySchoolid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    *
+    from g_campus
+    where schoolid = #{schoolid,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 获取学校校区列表 selectAllList -->
+  <select id="selectAllList" parameterType="com.iteacher.schoolcourse.model.SchoolVo" 
+  			resultType="com.iteacher.schoolcourse.model.SchoolCustom">
+  	SELECT 
+	g_school.schoolname,
+	g_campus.*
+	FROM 
+	g_campus,
+	g_school
+	<where>
+      <if test="schoolname != null and schoolname != ''" >
+        and schoolname = #{schoolname,jdbcType=VARCHAR}
+      </if>
+      <if test="campusname != null and campusname != ''" >
+        and campusname = #{campusname,jdbcType=VARCHAR}
+      </if>
+      	and g_school.id = g_campus.schoolid
+   </where>	
+   limit #{page},#{rows}		
+  </select>
+  
+  <!-- 获取列表数目 getAllCount -->
+  <select id="getAllCount" parameterType="com.iteacher.schoolcourse.model.SchoolVo" resultType="Long">
+  	SELECT 
+	COUNT(*) 
+	FROM 
+	g_campus,
+	g_school
+	<where>
+      <if test="schoolname != null and schoolname != ''" >
+        and schoolname = #{schoolname,jdbcType=VARCHAR}
+      </if>
+      <if test="campusname != null and campusname != ''" >
+        and campusname = #{campusname,jdbcType=VARCHAR}
+      </if>
+      	and g_school.id = g_campus.schoolid
+   	</where>
+  </select>
+  
+  <!-- getCountBySchoolid -->
+  <select id="getCountBySchoolid"  resultType="java.lang.Integer">
+  	SELECT 
+	COUNT(*) 
+	FROM 
+	g_campus
+	WHERE
+	schoolid = #{schoolid,jdbcType=INTEGER}
+	
+  </select>
+  
+  <!-- deleteCampusAndSchool -->
+    <delete id="deleteCampusAndSchool" parameterType="java.lang.Integer" >
+    DELETE 
+	g_campus.*,
+	g_school.*
+	FROM
+	g_campus,
+	g_school
+	WHERE
+	g_campus.schoolid = g_school.id
+	AND
+	g_campus.id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

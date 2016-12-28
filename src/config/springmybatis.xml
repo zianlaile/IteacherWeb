@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/jdbc 
+        http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+        http://www.springframework.org/schema/data/jpa 
+        http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+">
+	<!-- 扫描controller注解,多个包中间使用半角逗号分隔 -->
+	<context:component-scan base-package="com.iteacher">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan> 
+	
+	<!-- 数据库连接池 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">  
+     	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+     	<property name="url" value="jdbc:mysql://localhost:3306/iteacher?useUnicode=true&amp;characterEncoding=utf8"/> 
+     	<!-- <property name="url" value="jdbc:mysql://115.28.24.114:3306/iteacher?useUnicode=true&amp;characterEncoding=utf8"/> -->   
+     	<property name="username" value="root"/>  
+     	<!-- <property name="password" value="123"/> --> 
+     	<property name="password" value="info"/>  
+ 	</bean> 
+ 	
+ 	<!-- 让spring管理sqlsessionfactory 使用mybatis和spring整合包中的 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+    	<!-- 数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+        <!-- 加载mybatis的配置文件,mapper文件和dao联系起来 -->  
+        <property name="mapperLocations" value="classpath:com/iteacher/*/mapping/*.xml"></property>  
+    </bean> 
+     
+    <!-- mapper扫描器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 扫描包路径，如果需要扫描多个包，中间使用半角逗号隔开 -->
+		<property name="basePackage" value="com.iteacher.*.dao" />
+	</bean>
+	
+	<!-- 事务管理器 -->
+  	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  		<!-- 数据源 -->
+		<property name="dataSource" ref="dataSource"/>
+	</bean>  
+	
+	<bean id="velocityService" class="com.iteacher.tpl.VelocityService">
+ 		<property name="definition" value="classpath:templates/*.tpl"/>
+ 	</bean>
+</beans>

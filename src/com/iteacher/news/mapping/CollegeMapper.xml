@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.news.dao.CollegeMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.news.model.College" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="collegename" property="collegename" jdbcType="VARCHAR" />
+    <result column="campusid" property="campusid" jdbcType="INTEGER" />
+    <result column="parent_collegeid" property="parentCollegeid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, collegename, campusid, parent_collegeid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from g_college
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from g_college
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.news.model.College" >
+    insert into g_college (id, collegename, campusid, 
+      parent_collegeid)
+    values (#{id,jdbcType=INTEGER}, #{collegename,jdbcType=VARCHAR}, #{campusid,jdbcType=INTEGER}, 
+      #{parentCollegeid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.news.model.College" >
+    insert into g_college
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="collegename != null" >
+        collegename,
+      </if>
+      <if test="campusid != null" >
+        campusid,
+      </if>
+      <if test="parentCollegeid != null" >
+        parent_collegeid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="collegename != null" >
+        #{collegename,jdbcType=VARCHAR},
+      </if>
+      <if test="campusid != null" >
+        #{campusid,jdbcType=INTEGER},
+      </if>
+      <if test="parentCollegeid != null" >
+        #{parentCollegeid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.news.model.College" >
+    update g_college
+    <set >
+      <if test="collegename != null" >
+        collegename = #{collegename,jdbcType=VARCHAR},
+      </if>
+      <if test="campusid != null" >
+        campusid = #{campusid,jdbcType=INTEGER},
+      </if>
+      <if test="parentCollegeid != null" >
+        parent_collegeid = #{parentCollegeid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.news.model.College" >
+    update g_college
+    set collegename = #{collegename,jdbcType=VARCHAR},
+      campusid = #{campusid,jdbcType=INTEGER},
+      parent_collegeid = #{parentCollegeid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 根据学校id查询所有的专业 -->
+  <select id="selectBySchoolid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  
+  	SELECT 
+	 g_college.*
+	FROM
+	 g_college,
+	 g_campus,
+	 g_school
+	WHERE
+	 g_school.id = #{id,jdbcType=INTEGER} 
+	AND g_school.id = g_campus.schoolid
+	AND g_campus.id = g_college.campusid
+
+  </select>
+  
+</mapper>

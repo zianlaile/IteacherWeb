@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.user.dao.StuAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.user.model.StuAccount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="VARCHAR" />
+    <result column="schoolid" property="schoolid" jdbcType="INTEGER" />
+    <result column="stu_number" property="stuNumber" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="im_token" property="imToken" jdbcType="VARCHAR" />
+    <result column="device" property="device" jdbcType="INTEGER" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="picid" property="picid" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="phone_state" property="phoneState" jdbcType="INTEGER" />
+    <result column="campusid" property="campusid" jdbcType="INTEGER" />
+    <result column="collegeid" property="collegeid" jdbcType="INTEGER" />
+    <result column="dormitory" property="dormitory" jdbcType="VARCHAR" />
+    <result column="short_phone" property="shortPhone" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, schoolid, stu_number, password, im_token, device, cid, picid, email, 
+    phone, phone_state, campusid, collegeid, dormitory, short_phone, qq, name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from g_stu_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from g_stu_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.user.model.StuAccount" >
+    insert into g_stu_account (id, userid, schoolid, 
+      stu_number, password, im_token, 
+      device, cid, picid, 
+      email, phone, phone_state, 
+      campusid, collegeid, dormitory, 
+      short_phone, qq, name
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=VARCHAR}, #{schoolid,jdbcType=INTEGER}, 
+      #{stuNumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{imToken,jdbcType=VARCHAR}, 
+      #{device,jdbcType=INTEGER}, #{cid,jdbcType=VARCHAR}, #{picid,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{phoneState,jdbcType=INTEGER}, 
+      #{campusid,jdbcType=INTEGER}, #{collegeid,jdbcType=INTEGER}, #{dormitory,jdbcType=VARCHAR}, 
+      #{shortPhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.user.model.StuAccount" >
+    insert into g_stu_account
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="schoolid != null" >
+        schoolid,
+      </if>
+      <if test="stuNumber != null" >
+        stu_number,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="imToken != null" >
+        im_token,
+      </if>
+      <if test="device != null" >
+        device,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="picid != null" >
+        picid,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="phoneState != null" >
+        phone_state,
+      </if>
+      <if test="campusid != null" >
+        campusid,
+      </if>
+      <if test="collegeid != null" >
+        collegeid,
+      </if>
+      <if test="dormitory != null" >
+        dormitory,
+      </if>
+      <if test="shortPhone != null" >
+        short_phone,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null" >
+        #{schoolid,jdbcType=INTEGER},
+      </if>
+      <if test="stuNumber != null" >
+        #{stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="imToken != null" >
+        #{imToken,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        #{device,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="picid != null" >
+        #{picid,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneState != null" >
+        #{phoneState,jdbcType=INTEGER},
+      </if>
+      <if test="campusid != null" >
+        #{campusid,jdbcType=INTEGER},
+      </if>
+      <if test="collegeid != null" >
+        #{collegeid,jdbcType=INTEGER},
+      </if>
+      <if test="dormitory != null" >
+        #{dormitory,jdbcType=VARCHAR},
+      </if>
+      <if test="shortPhone != null" >
+        #{shortPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.user.model.StuAccount" >
+    update g_stu_account
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolid != null" >
+        schoolid = #{schoolid,jdbcType=INTEGER},
+      </if>
+      <if test="stuNumber != null" >
+        stu_number = #{stuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="imToken != null" >
+        im_token = #{imToken,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        device = #{device,jdbcType=INTEGER},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="picid != null" >
+        picid = #{picid,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneState != null" >
+        phone_state = #{phoneState,jdbcType=INTEGER},
+      </if>
+      <if test="campusid != null" >
+        campusid = #{campusid,jdbcType=INTEGER},
+      </if>
+      <if test="collegeid != null" >
+        collegeid = #{collegeid,jdbcType=INTEGER},
+      </if>
+      <if test="dormitory != null" >
+        dormitory = #{dormitory,jdbcType=VARCHAR},
+      </if>
+      <if test="shortPhone != null" >
+        short_phone = #{shortPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.user.model.StuAccount" >
+    update g_stu_account
+    set userid = #{userid,jdbcType=VARCHAR},
+      schoolid = #{schoolid,jdbcType=INTEGER},
+      stu_number = #{stuNumber,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      im_token = #{imToken,jdbcType=VARCHAR},
+      device = #{device,jdbcType=INTEGER},
+      cid = #{cid,jdbcType=VARCHAR},
+      picid = #{picid,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      phone_state = #{phoneState,jdbcType=INTEGER},
+      campusid = #{campusid,jdbcType=INTEGER},
+      collegeid = #{collegeid,jdbcType=INTEGER},
+      dormitory = #{dormitory,jdbcType=VARCHAR},
+      short_phone = #{shortPhone,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectStu" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	SELECT
+	g_stu_account.*
+	FROM
+	g_stu_account
+	WHERE 
+	g_stu_account.collegeid = #{id,jdbcType=INTEGER}
+  </select>
+</mapper>

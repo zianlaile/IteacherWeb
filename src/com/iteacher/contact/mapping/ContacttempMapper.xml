@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.contact.dao.ContacttempMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.contact.model.Contacttemp" >
+    <id column="contactid" property="contactid" jdbcType="INTEGER" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="campus" property="campus" jdbcType="VARCHAR" />
+    <result column="classify" property="classify" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="office" property="office" jdbcType="VARCHAR" />
+    <result column="person" property="person" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    contactid, school, campus, classify, department, office, person, phone, notes
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from z_contacttemp
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from z_contacttemp
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.contact.model.Contacttemp" >
+    insert into z_contacttemp (contactid, school, campus, 
+      classify, department, office, 
+      person, phone, notes
+      )
+    values (#{contactid,jdbcType=INTEGER}, #{school,jdbcType=VARCHAR}, #{campus,jdbcType=VARCHAR}, 
+      #{classify,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{office,jdbcType=VARCHAR}, 
+      #{person,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.contact.model.Contacttemp" >
+    insert into z_contacttemp
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contactid != null" >
+        contactid,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="campus != null" >
+        campus,
+      </if>
+      <if test="classify != null" >
+        classify,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="office != null" >
+        office,
+      </if>
+      <if test="person != null" >
+        person,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contactid != null" >
+        #{contactid,jdbcType=INTEGER},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="campus != null" >
+        #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="office != null" >
+        #{office,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null" >
+        #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.contact.model.Contacttemp" >
+    update z_contacttemp
+    <set >
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="campus != null" >
+        campus = #{campus,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        classify = #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="office != null" >
+        office = #{office,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null" >
+        person = #{person,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.contact.model.Contacttemp" >
+    update z_contacttemp
+    set school = #{school,jdbcType=VARCHAR},
+      campus = #{campus,jdbcType=VARCHAR},
+      classify = #{classify,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      office = #{office,jdbcType=VARCHAR},
+      person = #{person,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR}
+    where contactid = #{contactid,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 导入前清空temp表 -->
+  <delete id="deleteAll">
+    delete from z_contacttemp
+  </delete>
+  
+  <!-- 查询缓存表所有信息 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from z_contacttemp
+    ORDER BY notes DESC,contactid
+  </select>
+  
+  <insert id="insertBatch" parameterType="java.util.List" >
+   insert into z_contacttemp (contactid, school, campus, 
+      classify, department, office, 
+      person, phone, notes) values
+      <foreach collection="list" item = "item" separator=",">
+      	(#{item.contactid,jdbcType=INTEGER},#{item.school,jdbcType=VARCHAR}, #{item.campus,jdbcType=VARCHAR}, 
+      	 #{item.classify,jdbcType=VARCHAR}, #{item.department,jdbcType=VARCHAR}, #{item.office,jdbcType=VARCHAR}, 
+      	 #{item.person,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.notes,jdbcType=VARCHAR})
+      </foreach>
+  </insert>
+</mapper>

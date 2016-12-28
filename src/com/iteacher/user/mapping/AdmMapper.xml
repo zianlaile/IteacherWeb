@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.user.dao.AdmMapper">
+	<!-- 查询用户列表 -->
+	<select id="findAdminList" resultType="com.iteacher.user.model.Admin">
+		select * from g_adm_account limit #{0},#{1}
+	</select>
+	
+	<!-- 查询用户个数 -->
+	<select id="countAllAdmin" resultType="Integer">
+		select count(*) from
+		g_adm_account
+	</select>
+	<!-- 根据用户名查询用户 -->
+	<select id="findByname" resultType="com.iteacher.user.model.Admin">
+		select * from
+		g_adm_account
+		where username = #{username}
+	</select>
+</mapper>

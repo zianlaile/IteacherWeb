@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.user.dao.UserMapper">
+	<select id="findSessionBySessionid" resultType="com.iteacher.user.model.Session">
+        select * from g_session where sessionid = #{0}
+	</select>  
+	<select id="findSessionList" resultType="com.iteacher.user.model.Session">
+		select * from g_session limit #{0},#{1}
+	</select>
+	<select id="countAllSession" resultType="Integer">
+		select count(*) from g_session
+	</select> 
+	<select id="findAdminByNameAndPsd" resultType="com.iteacher.user.model.Admin">
+		select * from g_adm_account where username=#{0} and password=#{1}
+	</select>
+	
+</mapper>

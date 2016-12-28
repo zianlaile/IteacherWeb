@@ -1,0 +1,3 @@
+.even		{ background:#FFF38F;}  /* 偶数行样式*/
+.odd		{ background:#FFFFEE;}  /* 奇数行样式*/
+.selected		{ background:#FF6500;color:#fff;}

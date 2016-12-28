@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iteacher.news.dao.PicMapper" >
+  <resultMap id="BaseResultMap" type="com.iteacher.news.model.Pic" >
+    <id column="picid" property="picid" jdbcType="INTEGER" />
+    <result column="addtime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="compresspicture" property="compresspicture" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    picid, addtime, picture, compresspicture, intro
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from g_pic
+    where picid = #{picid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from g_pic
+    where picid = #{picid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iteacher.news.model.Pic" >
+    insert into g_pic (picid, addtime, picture, 
+      compresspicture, intro)
+    values (#{picid,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, #{picture,jdbcType=VARCHAR}, 
+      #{compresspicture,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iteacher.news.model.Pic" >
+    insert into g_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="picid != null" >
+        picid,
+      </if>
+      <if test="addtime != null" >
+        addtime,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+      <if test="compresspicture != null" >
+        compresspicture,
+      </if>
+      <if test="intro != null" >
+        intro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="picid != null" >
+        #{picid,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="compresspicture != null" >
+        #{compresspicture,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        #{intro,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iteacher.news.model.Pic" >
+    update g_pic
+    <set >
+      <if test="addtime != null" >
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="compresspicture != null" >
+        compresspicture = #{compresspicture,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where picid = #{picid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iteacher.news.model.Pic" >
+    update g_pic
+    set addtime = #{addtime,jdbcType=TIMESTAMP},
+      picture = #{picture,jdbcType=VARCHAR},
+      compresspicture = #{compresspicture,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR}
+    where picid = #{picid,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 按picture查找picid -->
+  <select id="selectByPic" resultType="java.lang.Integer"
+		parameterType="String">
+		select
+		  picid
+		from g_pic
+		where picture = #{picture,jdbcType=VARCHAR}
+	</select>
+</mapper>
